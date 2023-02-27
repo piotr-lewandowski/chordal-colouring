@@ -34,3 +34,20 @@ public record Graph<T>(IEnumerable<T> Vertices) where T : Vertex
     public IEnumerable<Edge> Edges { get; } =
         Vertices.SelectMany(v => v.Neighbours.Where(n => n.Id > v.Id).Select(n => new Edge(v, n))).ToList();
 }
+
+public class Graph 
+{
+    public static Graph<Vertex> FromEdges(IEnumerable<IEnumerable<int>> edges)
+    {
+        var vertexCount = edges.Count();
+        var vertices = Enumerable.Range(0, vertexCount).Select(i => new Vertex(i)).ToArray();
+
+        foreach(var vertex in vertices)
+        {
+            var neighbours = edges.ElementAt(vertex.Id).Select(i => vertices[i]);
+            vertex.Neighbours = neighbours;
+        }
+
+        return new Graph<Vertex>(vertices);
+    }
+}
