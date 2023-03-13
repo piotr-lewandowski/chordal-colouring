@@ -5,7 +5,7 @@ namespace Interface;
 class JavaGraphReader : IGraphReader
 {
 
-    public Graph<Vertex> ReadSingle(string path)
+    public Graph ReadSingle(string path)
     {
         var lines = File.ReadAllLines(path);
         var current = 0;
@@ -13,12 +13,12 @@ class JavaGraphReader : IGraphReader
         return ParseGraph(lines, ref current);
     }
 
-    public IEnumerable<Graph<Vertex>> ReadList(string path)
+    public IEnumerable<Graph> ReadList(string path)
     {
         var lines = File.ReadAllLines(path);
         var current = 0;
 
-        var list = new List<Graph<Vertex>>();
+        var list = new List<Graph>();
         while (current < lines.Length)
         {
             var g = ParseGraph(lines, ref current);
@@ -29,7 +29,7 @@ class JavaGraphReader : IGraphReader
 
     }
 
-    Graph<Vertex> ParseGraph(string[] lines, ref int current)
+    Graph ParseGraph(string[] lines, ref int current)
     {
         // Label
         current++;

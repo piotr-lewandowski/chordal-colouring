@@ -1,6 +1,12 @@
 namespace Logic;
 
-public record Colour(int Id);
+public record Colour(int Id)
+{
+    public override string ToString()
+    {
+        return (Id + 1).ToString();
+    }
+}
 
 
 public record Vertex
@@ -17,27 +23,32 @@ public record Vertex
         Neighbours = neighbours;
     }
 
+    public Vertex(int id, IEnumerable<Vertex> neighbours, Colour colour)
+    {
+        Id = id;
+        Neighbours = neighbours;
+        Colour = colour;
+    }
+
     public int Id { get; }
     public IEnumerable<Vertex> Neighbours { get; set; }
-    public ColouredVertex WithColour(Colour colour) => new(Id, Neighbours, colour);
+    public Colour? Colour { get; set; }
 }
-
-public record ColouredVertex(int Id, IEnumerable<Vertex> Neighbours, Colour Colour) : Vertex(Id, Neighbours);
 
 public record Edge(Vertex Start, Vertex End)
 {
     public IEnumerable<Vertex> Vertices { get; } = new[] { Start, End };
 }
 
-public record Graph<T>(IEnumerable<T> Vertices) where T : Vertex
+
+public record Graph(IEnumerable<Vertex> Vertices)
 {
     public IEnumerable<Edge> Edges { get; } =
         Vertices.SelectMany(v => v.Neighbours.Where(n => n.Id > v.Id).Select(n => new Edge(v, n))).ToList();
-}
 
-public class Graph 
-{
-    public static Graph<Vertex> FromNeighbourLists(IEnumerable<IEnumerable<int>> edges)
+    public bool IsColoured() => Vertices.All(v => v.Colour is not null);
+
+    public static Graph FromNeighbourLists(IEnumerable<IEnumerable<int>> edges)
     {
         var vertexCount = edges.Count();
         var vertices = Enumerable.Range(0, vertexCount).Select(i => new Vertex(i)).ToArray();
@@ -48,6 +59,6 @@ public class Graph
             vertex.Neighbours = neighbours;
         }
 
-        return new Graph<Vertex>(vertices);
+        return new Graph(vertices);
     }
 }

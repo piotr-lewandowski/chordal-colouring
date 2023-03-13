@@ -4,7 +4,7 @@ using Logic;
 
 class GraphReader : IGraphReader
 {
-    public Graph<Vertex> ReadSingle(string path)
+    public Graph ReadSingle(string path)
     {
         var lines = File.ReadAllLines(path);
         var count = int.Parse(lines[0]);

@@ -3,9 +3,9 @@ namespace Logic;
 public abstract class GreedyColouring : IColouring
 {
 
-    protected abstract IEnumerable<Vertex> OrderVertices(Graph<Vertex> graph);
+    protected abstract IEnumerable<Vertex> OrderVertices(Graph graph);
 
-    public Graph<ColouredVertex> Colour(Graph<Vertex> graph)
+    public Graph Colour(Graph graph)
     {
         var orderedVertices = OrderVertices(graph);
         var colours = new Colour?[orderedVertices.Count()];
@@ -33,7 +33,7 @@ public abstract class GreedyColouring : IColouring
             colours[vertex.Id] = colour;
         }
 
-        var newVertices = graph.Vertices.Select(v => v.WithColour(colours[v.Id]!));
+        var newVertices = graph.Vertices.Select(v => v with { Colour = colours[v.Id] });
 
         return new(newVertices);
     }
