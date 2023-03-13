@@ -37,7 +37,7 @@ public record Graph<T>(IEnumerable<T> Vertices) where T : Vertex
 
 public class Graph 
 {
-    public static Graph<Vertex> FromEdges(IEnumerable<IEnumerable<int>> edges)
+    public static Graph<Vertex> FromNeighbourLists(IEnumerable<IEnumerable<int>> edges)
     {
         var vertexCount = edges.Count();
         var vertices = Enumerable.Range(0, vertexCount).Select(i => new Vertex(i)).ToArray();

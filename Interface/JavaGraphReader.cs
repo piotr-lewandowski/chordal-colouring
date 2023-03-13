@@ -76,7 +76,7 @@ class JavaGraphReader : IGraphReader
         if (current < lines.Length && lines[current].Contains("<->"))
             current++;
 
-        return Graph.FromEdges(edges);
+        return Graph.FromNeighbourLists(edges);
     }
 
 }
