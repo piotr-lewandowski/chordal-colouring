@@ -4,5 +4,5 @@ namespace Interface;
 
 interface IGraphReader
 {
-    Graph<Vertex> ReadFile(string path);
+    Graph<Vertex> ReadSingle(string path);
 }

@@ -2,9 +2,9 @@
 using Interface;
 
 var reader = new JavaGraphReader();
-var graphs = reader.ReadFile(Path.Combine("Data", "java_interference_graphs.txt"));
+var graph = reader.ReadSingle(Path.Combine("Data", "java_interference_graphs.txt"));
 
 var writer = new GraphWriter();
-var text = writer.Write(graphs.First());
+var text = writer.Write(graph);
 
 Console.Write(text);
