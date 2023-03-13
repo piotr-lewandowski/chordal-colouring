@@ -3,9 +3,9 @@ using System.Text;
 
 namespace Interface;
 
-class GraphWriter : IGraphWriter
+class NeighbourWriter : IGraphWriter
 {
-    public string Write(Graph<Vertex> graph)
+    public string Write(Graph graph)
     {
         var sb = new StringBuilder();
         sb.AppendLine(graph.Vertices.Count().ToString());

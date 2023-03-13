@@ -47,6 +47,7 @@ public record Graph(IEnumerable<Vertex> Vertices)
         Vertices.SelectMany(v => v.Neighbours.Where(n => n.Id > v.Id).Select(n => new Edge(v, n))).ToList();
 
     public bool IsColoured() => Vertices.All(v => v.Colour is not null);
+    public int MaxColour => Vertices.Select(v => v.Colour?.Id ?? 0).Max() + 1;
 
     public static Graph FromNeighbourLists(IEnumerable<IEnumerable<int>> edges)
     {
