@@ -8,7 +8,7 @@ var writer = new ColourWriter();
 var text = writer.Write(graph);
 Console.Write(text);
 
-var algorithm = new SmallestLast();
+var algorithm = new MaximumCardinalitySearch();
 var coloured = algorithm.Colour(graph);
 
 text = writer.Write(coloured);

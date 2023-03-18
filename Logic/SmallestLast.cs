@@ -34,7 +34,6 @@ public class SmallestLast : GreedyColouring
             }
         }
 
-        Console.WriteLine(stack.Count);
         return stack.ToList();
     }
 }
