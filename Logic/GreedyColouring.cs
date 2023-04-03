@@ -3,7 +3,7 @@ namespace Logic;
 public abstract class GreedyColouring : IColouring
 {
 
-    protected abstract IEnumerable<Vertex> OrderVertices(Graph graph);
+    public abstract IEnumerable<Vertex> OrderVertices(Graph graph);
 
     public Graph Colour(Graph graph)
     {

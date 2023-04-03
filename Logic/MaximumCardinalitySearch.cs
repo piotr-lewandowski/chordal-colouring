@@ -2,7 +2,7 @@ namespace Logic;
 
 public class MaximumCardinalitySearch : GreedyColouring
 {
-    protected override IEnumerable<Vertex> OrderVertices(Graph graph)
+    public override IEnumerable<Vertex> OrderVertices(Graph graph)
     {
         var degrees = graph.Vertices.Select(v => 0).ToList();
         var vertices = graph.Vertices.ToList();

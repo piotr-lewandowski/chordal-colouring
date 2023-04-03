@@ -2,7 +2,7 @@ namespace Logic;
 
 public class SmallestLast : GreedyColouring
 {
-    protected override IEnumerable<Vertex> OrderVertices(Graph graph)
+    public override IEnumerable<Vertex> OrderVertices(Graph graph)
     {
         var degrees = graph.Vertices.Select(v => v.Neighbours.Count()).ToList();
         var vertices = graph.Vertices.ToList();
