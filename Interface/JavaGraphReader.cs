@@ -41,18 +41,7 @@ class JavaGraphReader : IGraphReader
 
         var edges = new List<List<int>>();
 
-        // Create the clique
-        for (int i = 0; i < count; i++)
-        {
-            edges.Add(new List<int>());
-            for (int j = 0; j < count; j++)
-            {
-                if (i != j)
-                    edges[i].Add(j);
-            }
-        }
-
-        // Random empty vertices
+        // Isolated vertices, we ignore the starting clique, but want 
         for (int i = count; i < 32; i++)
         {
             edges.Add(new());
@@ -75,6 +64,26 @@ class JavaGraphReader : IGraphReader
         // Recommended edges we don't use
         if (current < lines.Length && lines[current].Contains("<->"))
             current++;
+
+        // Find a possible reordering of vertices
+        edges = edges.Select(neighbours => neighbours.Where(n => n > 31).ToList()).ToList();
+        var nonIsolated = edges.Select(neighbours => neighbours.Count > 0).ToList();
+        var currentIndex = 0;
+        var mapping = new Dictionary<int, int>();
+        for(int i=0; i<nonIsolated.Count(); ++i)
+        {
+            if(nonIsolated[i])
+            {
+                mapping.Add(i, currentIndex);
+                currentIndex++;
+            }
+        }
+
+        // Drop isolated vertices and reorder
+        edges = edges
+            .Where(neigbours => neigbours.Count > 0)
+            .Select(neighbours => neighbours.Select(n => mapping[n]).Order().ToList())
+            .ToList();
 
         return Graph.FromNeighbourLists(edges);
     }
