@@ -10,8 +10,9 @@ public class PerfectEliminationOrdering
             var current = ordered[i];
             var previous = ordered.Take(i).Where(u => u.Neighbours.Contains(current));
 
-            var all = previous.Append(current);
-            var relevantEdges = edges.Count(e => all.Contains(e.Start) && all.Contains(e.End));
+            var all = previous.Append(current).Select(v => v.Id);
+            var allSet = new SortedSet<int>(all);
+            var relevantEdges = edges.Count(e => allSet.Contains(e.Start.Id) && allSet.Contains(e.End.Id));
 
             var n = all.Count();
             if (relevantEdges < (n * (n-1)) / 2)
