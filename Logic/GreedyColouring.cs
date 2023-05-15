@@ -17,11 +17,17 @@ public abstract class GreedyColouring : IColouring
                 .OrderBy(c => c.Id);
 
             var smallestPossibleId = 0;
-            foreach(var c in usedColours)
+            var lastSeen = -1;
+            foreach (var c in usedColours)
             {
-                if(smallestPossibleId == c.Id)
+                if (smallestPossibleId == c.Id)
                 {
                     smallestPossibleId++;
+                    lastSeen = c.Id;
+                }
+                if (lastSeen == c.Id)
+                {
+                    continue;
                 }
                 else
                 {

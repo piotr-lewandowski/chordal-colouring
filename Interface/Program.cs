@@ -1,7 +1,5 @@
 ﻿using Interface;
 using Logic;
-using System.CommandLine.Builder;
-using System.CommandLine.Help;
 using System.CommandLine.Parsing;
 using System.CommandLine;
 
@@ -51,6 +49,38 @@ rootCommand.SetHandler((file, algorithm) =>
     }
 
 }, fileArgument, algOption);
+
+var directoryArg = new Argument<DirectoryInfo>(
+    name: "directory",
+    description: "Directory containing input files"
+);
+
+directoryArg.AddValidator(result =>
+{
+    var dirInfo = result.GetValueForArgument<DirectoryInfo>(directoryArg);
+    if (!dirInfo.Exists)
+    {
+        result.ErrorMessage = $"Directory {dirInfo.FullName} does not exist.";
+    }
+});
+
+var generateCommand = new Command("generate",
+    "Generate csv data for the data set in a given directory."
+) { directoryArg };
+
+generateCommand.SetHandler(dir =>
+{
+    var reader = new MultiGraphReader();
+
+    var algs = Enum.GetValues<Algorithms>();
+
+    foreach (var alg in algs)
+    {
+        reader.GenerateDataForAllFiles(GetColouring(alg), dir);
+    }
+}, directoryArg);
+
+rootCommand.Add(generateCommand);
 
 await rootCommand.InvokeAsync(args);
 

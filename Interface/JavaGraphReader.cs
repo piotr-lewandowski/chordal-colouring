@@ -1,3 +1,4 @@
+using System.Text;
 using Logic;
 
 namespace Interface;
@@ -26,7 +27,6 @@ class JavaGraphReader : IGraphReader
         }
 
         return list;
-
     }
 
     Graph ParseGraph(string[] lines, ref int current)
@@ -70,9 +70,9 @@ class JavaGraphReader : IGraphReader
         var nonIsolated = edges.Select(neighbours => neighbours.Count > 0).ToList();
         var currentIndex = 0;
         var mapping = new Dictionary<int, int>();
-        for(int i=0; i<nonIsolated.Count(); ++i)
+        for (int i = 0; i < nonIsolated.Count(); ++i)
         {
-            if(nonIsolated[i])
+            if (nonIsolated[i])
             {
                 mapping.Add(i, currentIndex);
                 currentIndex++;
