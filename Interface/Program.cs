@@ -31,6 +31,7 @@ rootCommand.SetHandler((file, algorithm) =>
 {
     var reader = new GraphReader();
     var writer = new ColourWriter();
+    var mcs = new MaximumCardinalitySearch();
     var error = Console.Error;
 
     try
@@ -38,14 +39,17 @@ rootCommand.SetHandler((file, algorithm) =>
         var graph = reader.ReadSingle(file.FullName);
         var colouring = GetColouring(algorithm);
 
+        var order = mcs.OrderVertices(graph);;
+        var isPerfect = PerfectEliminationOrdering.IsPerfectElimination(order.ToList(), graph);
         var coloured = colouring.Colour(graph);
 
         var text = writer.Write(coloured);
+        Console.WriteLine(isPerfect ? "Input graph is chordal." : "Input graph is not chordal.");
         Console.Write(text);
     }
     catch (System.Exception)
     {
-        error.WriteLine("Input graph was not in a correct format.");
+        error.WriteLine("Input graph is not in a correct format.");
     }
 
 }, fileArgument, algOption);
